@@ -2,7 +2,8 @@
 
 module LMO.DB.Tables where
 
-import Data.Text (Text, append)
+import Data.Text (Text, concat)
+import Prelude hiding (concat)
 
 data Table = Table
              { tableName    :: Text
@@ -14,22 +15,32 @@ table = Table
 
 allTables :: [Table]
 allTables =
-  [ table "song" ("CREATE TABLE song"        `append`
-                  " (id            INTEGER PRIMARY KEY" `append`
-                  ", name          TEXT "    `append`
-                  ", author_lyrics TEXT "    `append`
-                  ", author_music  TEXT "    `append`
-                  ", author_trans  TEXT "    `append`
-                  ", scripture_ref TEXT "    `append`
-                  ", key           TEXT "    `append`
-                  ", numbering     INTEGER " `append`
-                  ")")
-  , table "verse" ("CREATE TABLE verse " `append`
-                   " (song   INTEGER "   `append`
-                   ", ord    INTEGER "   `append`
-                   ", flags  INTEGER "   `append`
-                   ", lyrics TEXT "      `append`
-                   ", PRIMARY KEY (song, ord) " `append`
-                   ")")
+  [ table "user" (concat [ "CREATE TABLE user"
+                         , " (uid TEXT PRIMARY KEY"
+                         , ", password TEXT NOT NULL)"
+                         ])
+  , table "song" (concat ["CREATE TABLE song"
+                         , " (id            INTEGER PRIMARY KEY"
+                         , ", revision      TEXT NOT NULL"
+                         , ", user          TEXT "
+                         , ", title         TEXT NOT NULL"
+                         , ", author_lyrics TEXT "
+                         , ", author_music  TEXT "
+                         , ", author_trans  TEXT "
+                         , ", copyright     TEXT "
+                         , ", scripture_ref TEXT "
+                         , ", key           TEXT "
+                         , ", numbering     INTEGER "
+                         , ", UNIQUE (id, revision)"
+                         , ")"
+                         ])
+  , table "verse" (concat ["CREATE TABLE verse "
+                          , " (song   INTEGER "
+                          , ", ord    INTEGER "
+                          , ", flags  INTEGER "
+                          , ", lyrics TEXT "
+                          , ", PRIMARY KEY (song, ord) "
+                          , ")"
+                          ])
   ]
                  
