@@ -20,15 +20,13 @@ executable liedermappe-online
   other-modules:       LMO.DB.Tables
                        LMO.DB.Init
                        LMO.Common.User
-                       LMO.Common.Song
                        LMO.Common.Error
-                       LMO.Import.SongMaker
                        LMO.Typeset.LaTeX
   -- other-extensions:    
   build-depends:       base >=4.7 && <4.8,
                        happstack-server >=7.4.0,
                        direct-sqlite >= 2.3,
-                       songmaker >= 0.1,
+                       songmaker,
                        text,
                        pureMD5,
                        mtl
